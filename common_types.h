@@ -1,6 +1,14 @@
 #ifndef COMMON_TYPES_H
 #define COMMON_TYPES_H
 
+/*
+ * common_types.h - Shared Header Contract (Group 103 & 106)
+ *
+ * NOTE: This file is OWNED BY THE GROUP (locked in Phase 0), not by Member 2.
+ * It is reproduced here exactly as agreed so that protocol.cpp can be compiled
+ * and unit-tested independently. Do not change it without telling the group.
+ */
+
 #include <stdint.h>
 #include <stddef.h>
 #include <string>
@@ -8,12 +16,12 @@
 #include <pthread.h>
 #include <time.h>
 
-#define PROTOCOL_MAGIC 0x4954      // "IT"
-#define PROTOCOL_VERSION 0x01
-#define MAX_FRAME_PAYLOAD (1024 * 1024) // 1 MB
-#define CHUNK_SIZE (64 * 1024)          // 64 KB
+#define PROTOCOL_MAGIC      0x4954              /* "IT" */
+#define PROTOCOL_VERSION    0x01
+#define MAX_FRAME_PAYLOAD   (1024 * 1024)       /* 1 MB */
+#define CHUNK_SIZE          (64 * 1024)         /* 64 KB */
 
-// Unified Opcodes (Table 2 of Design Doc)
+/* Unified Opcodes (Table 2 of Design Doc) */
 enum Opcode : uint8_t {
     OP_GET            = 0x01,
     OP_GET_OK         = 0x02,
@@ -31,21 +39,21 @@ enum Opcode : uint8_t {
     OP_ASSIGN_WORK    = 0x0E
 };
 
-// Server Data Structures (Person 1)
+/* Server Data Structures (Member 1) */
 struct FileMeta {
     std::string filename;
     std::string full_path;
-    uint64_t file_size;
+    uint64_t    file_size;
 };
 
 struct TopicEntry {
-    std::string topic_name;
-    std::string dir_path;
-    std::vector<FileMeta> files; // Sorted deterministically by filename
-    uint64_t total_bytes;
+    std::string           topic_name;
+    std::string           dir_path;
+    std::vector<FileMeta> files;        /* Sorted deterministically by filename */
+    uint64_t              total_bytes;
 };
 
-// Frame Header (Person 2)
+/* Frame Header (Member 2) */
 struct FrameHeader {
     uint16_t magic;
     uint8_t  version;
@@ -53,7 +61,7 @@ struct FrameHeader {
     uint32_t payload_length;
 };
 
-// Persistent Checkpoint & Server Session State (Person 4)
+/* Persistent Checkpoint & Server Session State (Member 4) */
 struct CheckpointRecord {
     uint8_t  session_id[16];
     char     session_id_hex[33];
@@ -73,4 +81,4 @@ struct ServerSession {
     bool     all_files_sent;
 };
 
-#endif
+#endif /* COMMON_TYPES_H */
